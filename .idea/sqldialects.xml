@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/5120/carbonvic.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/5120/test_carbon.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/5120/tp9test.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/ass1/ass1.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/week1/week1.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/week3/w3lab_part2.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/week3/w3lab_part3.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/week3/week3_lab.sql" dialect="Oracle" />
+  </component>
+</project>
