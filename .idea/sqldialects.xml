@@ -6,9 +6,11 @@
     <file url="file://$PROJECT_DIR$/5120/tp9test.sql" dialect="TSQL" />
     <file url="file://$PROJECT_DIR$/ass1/QUERY.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/ass1/table.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/ass1/two_column.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/week1/week1.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/week3/w3lab_part2.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/week3/w3lab_part3.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/week3/week3_lab.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/week4/lab04.sql" dialect="Oracle" />
   </component>
 </project>

@@ -141,3 +141,4 @@ group by
     CENTERID;
 
 select * from Fact_Incidents;
+
