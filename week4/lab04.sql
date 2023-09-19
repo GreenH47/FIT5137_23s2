@@ -26,6 +26,18 @@ select * from item2;
 -- check the duplicate i_itemkey value in item2
 select i.I_ITEMKEY, count(*) from item2 i group by i.I_ITEMKEY having count(*) > 1;
 
+Select *
+From item2
+Where i_categorykey = 'cat1';
+
+Update item2
+Set i_categorykey = 'cat12'
+Where i_itemkey = 'I1';
+Update item2
+Set i_categorykey = 'cat2'
+Where i_itemkey = 'I2';
+
+
 create table bidpackage2 as
 select * from dtaniar.bidpackage2;
 select * from bidpackage2;
@@ -62,6 +74,7 @@ delete
 from auction2 a2
 where a2.a_auctionkey in (select a.a_auctionkey from auction2 a group by a.a_auctionkey having count(*) > 1);
 
+Select count(*) From auction2;
 
 create table buyauction2 as
 select * from dtaniar.buyauction2;
@@ -80,6 +93,7 @@ select * from bidding2;
 create data warehouse
 */
 -- create dimension table
+
 create table DIM_ITEM as
 select i.I_ITEMKEY,i.I_NAME,i.I_RETAILPRICE
 from item2 i;
@@ -87,6 +101,7 @@ select * from DIM_ITEM;
 
 -- create DIM_LOCATION table from region2 and nation2
 -- with locationID(r_name +'-'+ n_name) as primary key
+
 create table DIM_LOCATION as
 select r.R_NAME, n.N_NAME, r.R_NAME||'-'||n.N_NAME as locationID
 from region2 r, nation2 n
@@ -94,6 +109,7 @@ where r.R_REGIONKEY = n.N_REGIONKEY;
 select * from DIM_LOCATION;
 
 --create DIM_CATEGORY table
+
 create table DIM_CATEGORY as
 select c.CAT_DESC, c.CAT_CATEGORYKEY
 from category2 c;
@@ -117,7 +133,7 @@ select * from DIM_season;
 drop table fact_temp;
 
 create table fact_temp as
-select r.R_NAME||'-'||n.N_NAME as locationID, a.a_endtime, i.i_itemkey, c.cat_categorykey, i.i_retailprice, a.a_auctionkey
+select r.R_NAME||'-'||n.N_NAME as locationID, a.a_endtime, i.i_itemkey, c.cat_categorykey,a.A_AUCTIONPRICE, i.i_retailprice, a.a_auctionkey
 from auction2 a, item2 i, category2 c, DIM_LOCATION l,customer2 cu,nation2 n,region2 r
 where a.a_itemkey = i.i_itemkey
 and i.i_categorykey = c.cat_categorykey
@@ -147,3 +163,79 @@ set f.seasonID = 4
 where to_char(f.a_endtime,'MM') in ('06','07','08');
 
 select * from fact_temp;
+
+-- create fact table based on fact_temp table
+-- Total Proit: (auctionPrice/biddingPrice)*singleBidCost - retailPrice
+-- Total Number of Auctions
+
+
+create table FACT_AUCTION as
+select f.locationID,
+       f.seasonID,
+       f.i_itemkey,
+       f.cat_categorykey,
+       sum((f.a_auctionprice/0.02)*0.75-f.i_retailprice) as total_profit,
+        count(f.a_auctionkey) as total_number_of_auctions
+from fact_temp f
+group by f.locationID,f.seasonID,f.i_itemkey,f.cat_categorykey;
+select * from FACT_AUCTION;
+
+/*
+query part
+*/
+-- What is the total profit list based on item category and item name?
+select
+    f.cat_categorykey,
+    c.CAT_DESC,
+    f.i_itemkey,
+    i.I_NAME,
+    sum(f.total_profit) as total_profit
+from
+    FACT_AUCTION f,
+    DIM_ITEM i,
+    DIM_CATEGORY c
+where
+    f.i_itemkey = i.I_ITEMKEY
+    and f.cat_categorykey = c.CAT_CATEGORYKEY
+group by
+    f.cat_categorykey,
+    c.CAT_DESC,
+    f.i_itemkey,
+    i.I_NAME;
+
+
+--Q2 What is the total number of auctions in each season
+-- (e.g. Summer, Autum, Winter, Spring) in different regions/nations?
+select
+    f.seasonID,
+    s.s_desc,
+    f.locationID,
+    sum(f.total_number_of_auctions) as total_number_of_auctions
+from
+    FACT_AUCTION f,
+    DIM_season s
+where
+     f.seasonID = s.seasonID
+group by
+    f.seasonID,
+    s.s_desc,
+    f.locationID;
+
+-- Q2.2 What is the total number of auctions Based on Region and Nation
+select
+    f.locationID,
+    s.s_desc,
+    sum(f.total_number_of_auctions) as total_number_of_auctions,
+    l.R_NAME as region
+from
+    FACT_AUCTION f,
+    DIM_LOCATION l,
+    DIM_season s
+where
+    f.locationID = l.locationID
+    and f.seasonID = s.seasonID
+group by
+    f.locationID,
+    s.s_desc,
+    l.R_NAME;
+

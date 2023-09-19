@@ -1,0 +1,36 @@
+# docker-compose build
+# configured for CSE3DMS - Database Management System
+# PostGIS server
+# La Trobe University
+# Created by Kiki Adhinugraha
+
+# how to use:
+# make sure you have Docker or Docker Desktop installed
+# remove "postgis_" from the filename. Make sure the file name is "docker-compose.yml"
+# Open the folder that contains docker-compose.yml
+# run C:\> docker-compose up
+
+version: '2.0'
+
+services:
+ db:
+    build: db
+    environment:
+      #your configuration
+      - POSTGRES_DB=gisdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      # Add postgis extension
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis
+    ports:
+      - "5430:5432"
+    restart: on-failure
+    volumes:
+      #This is where Postgresql stores the data
+      #Replace the ./pgdata with local folder in your PC. 
+      #You could leave this as is if you extract the CSE3DMS folder in your La Trobe Onedrive folder
+      - "./pgdata:/var/lib/postgresql/data"
+      #Replace the ../vector with your own directory that contains vector file and external data
+      - "../vector:/home/vector"
+      - "./extdata:/home/extdata"

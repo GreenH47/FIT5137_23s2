@@ -23,5 +23,12 @@
       <jdbc-url>jdbc:mysql://carbonvic.clx2a8hznypy.us-east-1.rds.amazonaws.com:3306/test</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="gisdb@localhost" uuid="25574413-eb31-4678-8487-d89a21334a1c">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/gisdb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
