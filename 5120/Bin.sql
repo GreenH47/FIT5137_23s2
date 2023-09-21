@@ -12,6 +12,8 @@ CREATE TABLE Bin (
 
 select * from Bin;
 
+TRUNCATE TABLE Bin;
+
 
 
 

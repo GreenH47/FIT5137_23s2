@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/5120/Bin.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/5120/Policy.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/5120/Postcode.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/5120/Waste.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/5120/carbonvic.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/5120/council.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/5120/test_carbon.sql" dialect="MySQL" />
